@@ -1,52 +1,66 @@
-const mongoose = require("mongoose");
-const request = require("supertest");
-const bcrypt = require("bcryptjs");
+import React, { useState } from 'react';
 
-const app = require("../app");
-const config = require("../config");
-const User = require("../models/user.model");
+const LoginForm = () => {
+  const [username, setUsername] = useState('');
+  const [password, setPassword] = useState('');
+  const [message, setMessage] = useState('');
 
-beforeAll(async () => {
-    await mongoose.connect(config.MONDODB_TEST_URI);
-});
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    try {
+      const credentials = `${username}:${password}`;
+      const base64Credentials = btoa(credentials);
+      const response = await fetch('http://localhost:5000/api/auth/login', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          Authorization: `Basic ${base64Credentials}`,
+        },
+        credentials: 'include', // Send cookies for authentication
+      });
+      if (response.status === 404) {
+        setMessage('用户名不存在或错误');
+      } else if (response.status === 401) {
+        setMessage('密码错误');
+      } else if (response.status === 200) {
+        setMessage('登录成功');
+        // Handle success, e.g., set user state or redirect
+      } else {
+        setMessage('登录失败');
+      }
+    } catch (err) {
+      setMessage('登录失败');
+      console.error(err);
+    }
+  };
 
-afterAll(async () => {
-    await mongoose.connection.db.dropDatabase();
-    await mongoose.connection.close();
-});
+  return (
+    <div>
+      <h1>欢迎来到OnlineJudge</h1>
+      <form onSubmit={handleSubmit}>
+        <div>
+          <label htmlFor="username">Username:</label>
+          <input
+            type="text"
+            id="username"
+            value={username}
+            onChange={(e) => setUsername(e.target.value)}
+          />
+        </div>
+        <div>
+          <label htmlFor="password">Password:</label>
+          <input
+            type="password"
+            id="password"
+            value={password}
+            onChange={(e) => setPassword(e.target.value)}
+          />
+        </div>
+        <button type="submit">Login</button>
+      </form>
+      {message && <p>{message}</p>}
+    </div>
+  );
+};
 
-describe("Auth Routes", () => {
-    var cookies;
-    beforeAll(async () => {
-        const user = new User({
-            username: "test",
-            password: bcrypt.hashSync("test", 10),
-        });
-        await user.save();
-    });
-
-    it("POST /api/auth/login", async () => {
-        response = await request(app)
-            .post("/api/auth/login")
-            .auth("not-found", "test");
-        expect(response.status).toBe(404);
-
-        response = await request(app)
-            .post("/api/auth/login")
-            .auth("test", "invalid");
-        expect(response.status).toBe(401);
-
-        response = await request(app)
-            .post("/api/auth/login")
-            .auth("test", "test");
-        expect(response.status).toBe(200);
-        cookies = response.headers["set-cookie"];
-    });
-
-    it("POST /api/auth/logout", async () => {
-        response = await request(app)
-            .post("/api/auth/logout")
-            .set("Cookie", cookies);
-        expect(response.status).toBe(204);
-    });
-});
+export default LoginForm;

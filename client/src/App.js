@@ -8,12 +8,12 @@ const LoginForm = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      const response = await fetch('/api/auth/login', {
+      const response = await fetch('http://localhost:5000/api/auth/login', { // Updated endpoint URL
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
+          Authorization: `Basic ${btoa(`${username}:${password}`)}`, // Encode username and password for basic auth
         },
-        body: JSON.stringify({ username, password }),
       });
       if (response.status === 404) {
         setMessage('用户名不存在或错误');
@@ -21,7 +21,7 @@ const LoginForm = () => {
         setMessage('密码错误');
       } else if (response.status === 200) {
         setMessage('登录成功');
-
+        // Handle success, e.g., set user state or redirect
       } else {
         setMessage('登录失败');
       }
@@ -36,7 +36,7 @@ const LoginForm = () => {
       <h1>欢迎来到OnlineJudge</h1>
       <form onSubmit={handleSubmit}>
         <div>
-          <label htmlFor="username">用户名:</label>
+          <label htmlFor="username">Username:</label>
           <input
             type="text"
             id="username"
@@ -45,7 +45,7 @@ const LoginForm = () => {
           />
         </div>
         <div>
-          <label htmlFor="password">密码:</label>
+          <label htmlFor="password">Password:</label>
           <input
             type="password"
             id="password"
@@ -53,7 +53,7 @@ const LoginForm = () => {
             onChange={(e) => setPassword(e.target.value)}
           />
         </div>
-        <button type="submit">登录</button>
+        <button type="submit">Login</button>
       </form>
       {message && <p>{message}</p>}
     </div>
