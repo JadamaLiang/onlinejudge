@@ -39,7 +39,7 @@ const LoginForm = () => {
       <h1>欢迎来到OnlineJudge</h1>
       <form onSubmit={handleSubmit}>
         <div>
-          <label htmlFor="username">Username:</label>
+          <label htmlFor="username">用户名:</label>
           <input
             type="text"
             id="username"
@@ -48,7 +48,7 @@ const LoginForm = () => {
           />
         </div>
         <div>
-          <label htmlFor="password">Password:</label>
+          <label htmlFor="password">密码:</label>
           <input
             type="password"
             id="password"
@@ -56,7 +56,7 @@ const LoginForm = () => {
             onChange={(e) => setPassword(e.target.value)}
           />
         </div>
-        <button type="submit">Login</button>
+        <button type="submit">登录</button>
       </form>
       {message && <p>{message}</p>}
     </div>
