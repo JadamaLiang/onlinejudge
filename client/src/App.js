@@ -8,12 +8,15 @@ const LoginForm = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      const response = await fetch('http://localhost:5000/api/auth/login', { // Updated endpoint URL
+      const credentials = `${username}:${password}`;
+      const base64Credentials = btoa(credentials);
+      const response = await fetch('/api/auth/login', { // Relative path
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
-          Authorization: `Basic ${btoa(`${username}:${password}`)}`, // Encode username and password for basic auth
+          Authorization: `Basic ${base64Credentials}`,
         },
+        credentials: 'include', // Send cookies for authentication
       });
       if (response.status === 404) {
         setMessage('用户名不存在或错误');
