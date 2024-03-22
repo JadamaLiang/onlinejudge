@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
+import { BrowserRouter as Router, Route } from 'react-router-dom';
 import LoginPage from './LoginPage';
 import QuizPage from './QuizPage';
 
@@ -9,16 +9,10 @@ const App = () => {
   return (
     <Router>
       <div>
-        <Switch>
-          <Route exact path="/">
-            {loggedIn ? (
-              <QuizPage />
-            ) : (
-              <LoginPage setLoggedIn={setLoggedIn} />
-            )}
-          </Route>
-          <Route path="/quiz" component={QuizPage} />
-        </Switch>
+        <Route exact path="/">
+          {loggedIn ? <QuizPage /> : <LoginPage setLoggedIn={setLoggedIn} />}
+        </Route>
+        <Route path="/quiz" component={QuizPage} />
       </div>
     </Router>
   );
