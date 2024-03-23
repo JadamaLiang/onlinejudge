@@ -12,10 +12,10 @@ const QuizPage = () => {
 
   return (
     <div>
-      <h1>Quiz Page</h1>
+      <h1>试卷列表</h1>
       <form onSubmit={handleCreateQuiz}>
         <div>
-          <label htmlFor="newQuiz">New Quiz Title:</label>
+          <label htmlFor="newQuiz">新试卷:</label>
           <input
             type="text"
             id="newQuiz"
