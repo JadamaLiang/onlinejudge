@@ -5,16 +5,20 @@ const LoginPage = ({ onLogin }) => {
   const [password, setPassword] = useState('');
   const [error, setError] = useState('');
 
-  const handleLogin = async () => {
+  const handleLogin = async (e) => {
+    e.preventDefault();
     try {
+      const credentials = `${username}:${password}`;
+      const base64Credentials = btoa(credentials);
       const response = await fetch('/api/auth/login', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
+          Authorization: `Basic ${base64Credentials}`,
         },
-        body: JSON.stringify({ username, password }),
+        credentials: 'include', // Send cookies for authentication
       });
-
+      
       if (response.status === 404) {
         setError('用户名不存在或错误');
       } else if (response.status === 401) {
