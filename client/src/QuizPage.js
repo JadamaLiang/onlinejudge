@@ -1,36 +1,15 @@
-import React, { useState } from 'react';
+// QuizPage.js
+import React from 'react';
+import { Link } from 'react-router-dom';
 
 const QuizPage = () => {
-  const [quizzes, setQuizzes] = useState([]);
-  const [newQuizTitle, setNewQuizTitle] = useState('');
-
-  const handleCreateQuiz = (e) => {
-    e.preventDefault();
-    setQuizzes([...quizzes, { title: newQuizTitle }]);
-    setNewQuizTitle('');
-  };
-
   return (
     <div>
-      <h1>试卷列表</h1>
-      <form onSubmit={handleCreateQuiz}>
-        <div>
-          <label htmlFor="newQuiz">新试卷:</label>
-          <input
-            type="text"
-            id="newQuiz"
-            value={newQuizTitle}
-            onChange={(e) => setNewQuizTitle(e.target.value)}
-          />
-          <button type="submit">Add Quiz</button>
-        </div>
-      </form>
-      <h2>Your Quizzes:</h2>
-      <ul>
-        {quizzes.map((quiz, index) => (
-          <li key={index}>{quiz.title}</li>
-        ))}
-      </ul>
+      <h2>Quiz Page</h2>
+      {/* Add a button or link to navigate to the CreateQuizPage */}
+      <Link to="/create-quiz">Create New Quiz</Link>
+      {/* You can also use a button with onClick event */}
+      {/* <button onClick={() => history.push('/create-quiz')}>Create New Quiz</button> */}
     </div>
   );
 };
