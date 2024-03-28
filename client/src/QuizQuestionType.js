@@ -104,7 +104,7 @@ const QuizQuestionType = ({ onSelectQuestionType }) => {
               <button onClick={handleAddOption}>添加选择</button>
               <div>
                 <label>
-                  评判方式:
+                  评分方式:
                   <select
                     value={gradingType}
                     onChange={(e) => setGradingType(e.target.value)}
@@ -121,7 +121,7 @@ const QuizQuestionType = ({ onSelectQuestionType }) => {
                     checked={allowNegative}
                     onChange={() => setAllowNegative(!allowNegative)}
                   />
-                  允许负数
+                  允许负成绩
                 </label>
               </div>
             </div>

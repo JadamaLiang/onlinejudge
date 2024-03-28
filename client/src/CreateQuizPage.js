@@ -44,12 +44,24 @@ const CreateQuizPage = () => {
     setQuestionSaved(true);
   };
 
-  const handleSubmitQuiz = () => {
-    // Submit quiz data (e.g., send to backend)
-    console.log({ quizTitle, questions });
-    // Simulate successful submission for demonstration purposes
-    setQuizSubmitted(true);
-    navigate('/quiz');
+  const handleSubmitQuiz = async () => {
+    try {
+      const res = await fetch('http://localhost:5000/api/quiz', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ title: quizTitle, questions }),
+      });
+      if (res.ok) {
+        const { _id } = await res.json();
+        navigate(`/quiz/${_id}`);
+      } else {
+        throw new Error('Failed to create quiz');
+      }
+    } catch (error) {
+      console.error('Error submitting quiz:', error);
+    }
   };
 
   return (
