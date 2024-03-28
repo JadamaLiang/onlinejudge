@@ -4,45 +4,41 @@ import { Link } from 'react-router-dom'; // Import Link from react-router-dom
 //import QuizQuestionType from './QuizQuestionType'; // Assuming QuizQuestionType component exists
 
 const QuizPage = () => {
-  const [createdQuizzes, setCreatedQuizzes] = useState([]);
-  const [error, setError] = useState('');
+  const [quizzes, setQuizzes] = useState([]);
 
-  const fetchCreatedQuizzes = async () => {
+  useEffect(() => {
+    fetchQuizzes();
+  }, []);
+
+  const fetchQuizzes = async () => {
     try {
-      const response = await fetch('/api/quiz'); // Assuming this endpoint fetches the created quizzes
-      if (!response.ok) {
-        throw new Error('Failed to fetch created quizzes');
+      const response = await fetch('/api/quiz');
+      if (response.ok) {
+        const data = await response.json();
+        setQuizzes(data);
+      } else {
+        console.error('收取试卷失败');
       }
-      const data = await response.json();
-      setCreatedQuizzes(data);
     } catch (error) {
-      console.error('Error fetching created quizzes:', error);
-      setError('Failed to fetch created quizzes');
+      console.error('收取试卷失败:', error);
     }
   };
 
-  useEffect(() => {
-    fetchCreatedQuizzes(); // Initial fetch of created quizzes on component mount
-  }, []);
-
   return (
     <div>
-      <h1>Quiz Page</h1>
+      <h1>试卷</h1>
       <Link to="/create-quiz">
-        <button>Create Quiz</button>
+        <button>创建试卷</button>
       </Link>
 
-      <h2>Created Quizzes</h2>
-      {error ? (
-        <p style={{ color: 'red' }}>{error}</p>
-      ) : (
-        <ul>
-          {Array.isArray(createdQuizzes) &&
-            createdQuizzes.map((quiz) => (
-              <li key={quiz.id}>{quiz.title}</li>
-            ))}
-        </ul>
-      )}
+      <h2>已有试卷</h2>
+      <ul>
+        {quizzes.map((quiz) => (
+          <li key={quiz._id}>
+            <Link to={`/quiz/${quiz._id}`}>{quiz.title}</Link>
+          </li>
+        ))}
+      </ul>
     </div>
   );
 };

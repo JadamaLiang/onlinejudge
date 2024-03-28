@@ -36,18 +36,18 @@ const LoginPage = ({ onLogin }) => {
 
   return (
     <div>
-      <h2>Login Page</h2>
+      <h2>欢迎到OnlineJudge</h2>
       <input
         type="text"
         value={username}
         onChange={(e) => setUsername(e.target.value)}
-        placeholder="Username"
+        placeholder="用户名"
       />
       <input
         type="password"
         value={password}
         onChange={(e) => setPassword(e.target.value)}
-        placeholder="Password"
+        placeholder="密码"
       />
       <button onClick={handleLogin}>登录</button>
       {error && <p style={{ color: 'red' }}>{error}</p>}

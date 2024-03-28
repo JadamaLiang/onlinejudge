@@ -1,7 +1,7 @@
-// CreateQuizPage.js
 import React, { useState } from 'react';
 import QuizQuestionType from './QuizQuestionType';
 import QuizPage from './QuizPage';
+import { useNavigate } from 'react-router-dom';
 
 const CreateQuizPage = () => {
   const [questions, setQuestions] = useState([]);
@@ -12,6 +12,8 @@ const CreateQuizPage = () => {
   const [showSaveButton, setShowSaveButton] = useState(false);
   const [questionSaved, setQuestionSaved] = useState(false);
   const [quizSubmitted, setQuizSubmitted] = useState(false);
+  const [showAddQuestion, setShowAddQuestion] = useState(false); // Corrected useState usage
+  const navigate = useNavigate();
 
   const handleAddQuestion = () => {
     setQuestions([...questions, { type: questionType, content: questionContent, options: [] }]);
@@ -47,43 +49,41 @@ const CreateQuizPage = () => {
     console.log({ quizTitle, questions });
     // Simulate successful submission for demonstration purposes
     setQuizSubmitted(true);
+    navigate('/quiz');
   };
 
   return (
     <div>
-      <h2>Create Quiz Page</h2>
+      <h2>创建试卷</h2>
       <input
         type="text"
         value={quizTitle}
         onChange={(e) => setQuizTitle(e.target.value)}
-        placeholder="Quiz Title"
+        placeholder="试卷名"
       />
       <QuizQuestionType
         onSelectQuestionType={(type) => {
           setQuestionType(type);
           setShowDeleteButton(true); // Show delete button when question type is chosen
           setShowSaveButton(true); // Show save button when question type is chosen
+          setShowAddQuestion(true);
         }}
         onQuestionContentChange={(content) => setQuestionContent(content)}
       />
-      <button onClick={handleAddQuestion}>Add Question</button>
-      {showDeleteButton && (
-        <button onClick={handleDeleteQuestion}>Delete Question</button>
+      {showAddQuestion && (
+        <button onClick={handleAddQuestion}>添加下一个题目</button>
       )}
       {showSaveButton && (
-        <button onClick={handleSaveQuestion}>Save Question</button>
+        <button onClick={handleSaveQuestion}>保存题目</button>
       )}
-      {questionSaved && <p>Question saved</p>}
-      <button onClick={handleSubmitQuiz}>Submit Quiz</button>
+      {questionSaved && <p>题目保存成功</p>}
+      <button onClick={handleSubmitQuiz}>提交试卷</button>
       {quizSubmitted && <QuizPage />} {/* Render QuizPage after submission */}
       {questions.map((question, index) => (
         <div key={index}>
-          <h3>Question {index + 1}</h3>
+          <h3>题目 {index + 1}</h3>
           {showDeleteButton && (
-            <button onClick={() => handleDeleteQuestion(index)}>Delete Question</button>
-          )}
-          {showSaveButton && (
-            <button onClick={handleSaveQuestion}>Save Question</button>
+            <button onClick={() => handleDeleteQuestion(index)}>删除题目</button>
           )}
         </div>
       ))}
