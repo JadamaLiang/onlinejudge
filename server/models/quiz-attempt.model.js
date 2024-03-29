@@ -1,6 +1,23 @@
 const { Schema, model } = require("mongoose");
 
-const grader = require("../grader");
+const AnswerSchema = new Schema(
+    {
+        answer: {
+            type: Schema.Types.Mixed,
+            required: true,
+        },
+        question: {
+            type: Schema.Types.ObjectId,
+            ref: "Question",
+            required: true,
+        },
+        score: {
+            type: Number,
+            required: true,
+        },
+    },
+    { _id: false }
+);
 
 const quizAttemptSchema = new Schema(
     {
@@ -9,31 +26,25 @@ const quizAttemptSchema = new Schema(
             ref: "Quiz",
             required: true,
         },
-        user_id: {
-            type: String,
-        },
         name: {
             type: String,
             required: true,
         },
-        answers: [
-            {
-                answer: {
-                    type: Schema.Types.Mixed,
-                    required: true,
-                },
-            },
-        ],
+        answers: [{ type: AnswerSchema }],
         score: {
             type: Number,
+            required: true,
         },
     },
     { timestamps: true }
 );
 
-quizAttemptSchema.pre("save", async function (next) {
-    this.score = await grader(this);
-    next();
+quizAttemptSchema.pre("find", function () {
+    this.populate("quiz");
+});
+
+quizAttemptSchema.pre("findOne", function () {
+    this.populate("quiz");
 });
 
 module.exports = model("QuizAttempt", quizAttemptSchema);
