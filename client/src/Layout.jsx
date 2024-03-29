@@ -31,7 +31,7 @@ function Layout() {
                 fontWeight="bold"
                 textTransform="none"
             >
-                Auto Grader
+                OnlineJudge
             </Typography>
         </Button>
     );
@@ -43,13 +43,13 @@ function Layout() {
                     onClick={() => logout().then(() => navigate("/login"))}
                     startIcon={<LogoutIcon />}
                 >
-                    Logout
+                    退出登录
                 </Button>
             );
         } else {
             return (
                 <Button component={Link} to="/login" startIcon={<PersonIcon />}>
-                    Login
+                    登录
                 </Button>
             );
         }

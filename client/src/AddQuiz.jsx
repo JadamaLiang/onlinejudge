@@ -19,11 +19,11 @@ function AddQuiz() {
             const { _id } = await res.json();
             navigate(`/quiz/${_id}`);
         } else {
-            throw new Error("Failed to create quiz");
+            throw new Error("创建试卷失败");
         }
     };
 
-    return <AddEditQuiz onSubmit={onSubmit} title="Add Quiz" />;
+    return <AddEditQuiz onSubmit={onSubmit} title="创建试卷" />;
 }
 
 export default AddQuiz;

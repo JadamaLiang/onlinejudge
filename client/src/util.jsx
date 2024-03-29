@@ -7,13 +7,13 @@ export const apiRoutes = {
 };
 
 export const questionTypes = {
-    single: "Single Choice",
-    multi: "Multiple Choice",
-    trueFalse: "True/False",
-    fillInBlank: "Fill in Blank",
+    single: "单选题",
+    multi: "多选题",
+    trueFalse: "判断题",
+    fillInBlank: "填空题",
 };
 
 export const gradingTypes = {
-    allOrNothing: "All or Nothing",
-    rightMinusWrong: "Right Minus Wrong",
+    allOrNothing: "全对或全错",
+    rightMinusWrong: "对减少",
 };

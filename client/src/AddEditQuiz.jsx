@@ -138,7 +138,7 @@ function AddEditQuiz({ onSubmit, quiz, title }) {
                 {title}
             </Typography>
             <TextField
-                label="Quiz Title"
+                label="试卷名"
                 fullWidth
                 size="small"
                 required
@@ -168,7 +168,7 @@ function AddEditQuiz({ onSubmit, quiz, title }) {
                 startIcon={<AddIcon />}
                 onClick={handleAddQuestion}
             >
-                Add Question
+                添加题目
             </Button>
             <Box sx={{ width: "100%" }}>
                 {message && (
@@ -184,7 +184,7 @@ function AddEditQuiz({ onSubmit, quiz, title }) {
                 disabled={loading}
                 sx={{ my: 2 }}
             >
-                {loading ? <CircularProgress size={24} /> : "Submit"}
+                {loading ? <CircularProgress size={24} /> : "提交"}
             </Button>
         </Box>
     );
@@ -207,7 +207,7 @@ const Question = ({ question, handleDeleteQuestion }) => {
             <CardContent>
                 <Box display="flex">
                     <TextField
-                        label="Question"
+                        label="题目内容"
                         fullWidth
                         required
                         size="small"
@@ -231,7 +231,7 @@ const Question = ({ question, handleDeleteQuestion }) => {
                             </InputLabel>
                             <Select
                                 labelId="question-type"
-                                label="Question Type"
+                                label="题型"
                                 value={type}
                                 onChange={(e) => setType(e.target.value)}
                                 name={`${question._id}-type`}
@@ -246,7 +246,7 @@ const Question = ({ question, handleDeleteQuestion }) => {
                             </Select>
                         </FormControl>
                         <TextField
-                            label="grade"
+                            label="成绩"
                             size="small"
                             type="number"
                             required
@@ -268,7 +268,7 @@ const Question = ({ question, handleDeleteQuestion }) => {
                     startIcon={<ClearIcon />}
                     onClick={() => handleDeleteQuestion(question._id)}
                 >
-                    Delete Question
+                    删除题目
                 </Button>
             </CardActions>
         </Card>
@@ -278,7 +278,7 @@ const Question = ({ question, handleDeleteQuestion }) => {
 const TrueFalse = ({ question }) => {
     return (
         <FormControl>
-            <FormLabel>Answer</FormLabel>
+            <FormLabel>答案</FormLabel>
             <RadioGroup
                 row
                 name={`${question._id}-answer`}
@@ -287,12 +287,12 @@ const TrueFalse = ({ question }) => {
                 <FormControlLabel
                     value={true}
                     control={<Radio size="small" />}
-                    label="True"
+                    label="对"
                 />
                 <FormControlLabel
                     value={false}
                     control={<Radio size="small" />}
-                    label="False"
+                    label="错"
                 />
             </RadioGroup>
         </FormControl>
@@ -322,7 +322,7 @@ const SingleChoice = ({ question }) => {
     return (
         <Box display="flex" flexDirection="column" width="100%">
             <FormControl>
-                <FormLabel>Options</FormLabel>
+                <FormLabel>选择</FormLabel>
                 <RadioGroup
                     row
                     name={`${question._id}-answer`}
@@ -380,7 +380,7 @@ const SingleChoice = ({ question }) => {
                 variant="text"
                 startIcon={<AddIcon />}
             >
-                Add Option
+                添加选择
             </Button>
         </Box>
     );
@@ -412,7 +412,7 @@ const MultiChoice = ({ question }) => {
     return (
         <Box display="flex" flexDirection="column" width="100%">
             <FormControl>
-                <FormLabel>Options</FormLabel>
+                <FormLabel>选择</FormLabel>
                 <List dense>
                     {options.map((option, index) => (
                         <ListItem key={index}>
@@ -470,10 +470,10 @@ const MultiChoice = ({ question }) => {
                 variant="text"
                 startIcon={<AddIcon />}
             >
-                Add Option
+                添加选择
             </Button>
             <FormControl>
-                <FormLabel>Grading Type</FormLabel>
+                <FormLabel>评分方式</FormLabel>
                 <RadioGroup
                     row
                     name={`${question._id}-gradingType`}
@@ -483,18 +483,18 @@ const MultiChoice = ({ question }) => {
                     <FormControlLabel
                         value="allOrNothing"
                         control={<Radio size="small" />}
-                        label="All or Nothing"
+                        label="全对或全错"
                     />
                     <FormControlLabel
                         value="rightMinusWrong"
                         control={<Radio size="small" />}
-                        label="Right Minus Wrong"
+                        label="对减错"
                     />
                 </RadioGroup>
             </FormControl>
             {gradingType === "rightMinusWrong" && (
                 <FormControl>
-                    <FormLabel>Allow Negative Grade</FormLabel>
+                    <FormLabel>允许负数成绩</FormLabel>
                     <RadioGroup
                         row
                         name={`${question._id}-allowNegativeGrade`}
@@ -503,12 +503,12 @@ const MultiChoice = ({ question }) => {
                         <FormControlLabel
                             value={true}
                             control={<Radio size="small" />}
-                            label="Yes"
+                            label="允许"
                         />
                         <FormControlLabel
                             value={false}
                             control={<Radio size="small" />}
-                            label="No"
+                            label="不允许"
                         />
                     </RadioGroup>
                 </FormControl>
@@ -520,15 +520,15 @@ const MultiChoice = ({ question }) => {
 const FillInBlank = ({ question }) => {
     return (
         <List>
-            <ListSubheader>Fill in Blank Answer</ListSubheader>
+            <ListSubheader>填空题</ListSubheader>
             <ListItem disablePadding>
                 <TextField
-                    label="Answer"
+                    label="答案"
                     fullWidth
                     size="small"
                     defaultValue={question.answer || ""}
                     name={`${question._id}-answer`}
-                    placeholder="Write the answers in order separated by commas. Example: answer1, answer2, answer3..."
+                    placeholder="请将答案用逗号分开。例如: 答案1, 答案2, 答案3..."
                 />
             </ListItem>
         </List>

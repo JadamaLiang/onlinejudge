@@ -72,7 +72,7 @@ function Quiz() {
     };
 
     if (quiz === undefined) return <LinearProgress />;
-    if (quiz === null) return <h1>Quiz not found</h1>;
+    if (quiz === null) return <h1>未找到试卷</h1>;
 
     return (
         <Box
@@ -86,7 +86,7 @@ function Quiz() {
                 {quiz.title}
             </Typography>
             <Typography variant="h6" gutterBottom>
-                {quiz.totalGrade} points
+                {quiz.totalGrade} 分
             </Typography>
             <ButtonGroup variant="outlined" sx={{ mb: 2 }}>
                 <Button
@@ -94,7 +94,7 @@ function Quiz() {
                     to={`/quiz/${id}/edit`}
                     startIcon={<EditIcon />}
                 >
-                    Edit
+                    修改
                 </Button>
                 <Button
                     color={
@@ -103,14 +103,14 @@ function Quiz() {
                     startIcon={<CopyButtonIcon />}
                     onClick={onClickCopy}
                 >
-                    Share
+                    分享
                 </Button>
                 <Button
                     component={Link}
                     to={`/quiz-attempt/quiz/${id}`}
                     startIcon={<PeopleIcon />}
                 >
-                    Attempts
+                    尝试报告
                 </Button>
             </ButtonGroup>
             <TrueFalseQuestions
@@ -137,7 +137,7 @@ export const TrueFalseQuestions = ({ questions, disabled }) => {
     if (!questions.length) return null;
     return (
         <List
-            subheader={<ListSubheader>True/False</ListSubheader>}
+            subheader={<ListSubheader>判断题</ListSubheader>}
             sx={{ width: "100%" }}
         >
             {questions.map((question) => (
@@ -151,7 +151,7 @@ export const TrueFalseQuestions = ({ questions, disabled }) => {
                             >
                                 {question.score !== undefined &&
                                     `${question.score} / `}
-                                {question.grade} points
+                                {question.grade} 分
                             </Typography>
                             <Typography variant="body1">
                                 {question.question}
@@ -167,12 +167,12 @@ export const TrueFalseQuestions = ({ questions, disabled }) => {
                                     <FormControlLabel
                                         value={true}
                                         control={<Radio size="small" />}
-                                        label="True"
+                                        label="对"
                                     />
                                     <FormControlLabel
                                         value={false}
                                         control={<Radio size="small" />}
-                                        label="False"
+                                        label="错"
                                     />
                                 </RadioGroup>
                             </FormControl>
@@ -188,7 +188,7 @@ export const SingleChoiceQuestions = ({ questions, disabled }) => {
     if (!questions.length) return null;
     return (
         <List
-            subheader={<ListSubheader>Single/Multiple Choice</ListSubheader>}
+            subheader={<ListSubheader>单选题</ListSubheader>}
             sx={{ width: "100%" }}
         >
             {questions.map((question) => (
@@ -202,7 +202,7 @@ export const SingleChoiceQuestions = ({ questions, disabled }) => {
                             >
                                 {question.score !== undefined &&
                                     `${question.score} / `}
-                                {question.grade} points
+                                {question.grade} 分
                             </Typography>
                             <Typography variant="body1">
                                 {question.question}
@@ -245,7 +245,7 @@ export const MultipleChoiceQuestions = ({ questions, disabled }) => {
     if (!questions.length) return null;
     return (
         <List
-            subheader={<ListSubheader>Multiple Choice</ListSubheader>}
+            subheader={<ListSubheader>多选题</ListSubheader>}
             sx={{ width: "100%" }}
         >
             {questions.map((question) => (
@@ -259,19 +259,19 @@ export const MultipleChoiceQuestions = ({ questions, disabled }) => {
                             >
                                 {question.score !== undefined &&
                                     `${question.score} / `}
-                                {question.grade} points
+                                {question.grade} 分
                             </Typography>
                             <Typography
                                 sx={{ fontSize: 14 }}
                                 color="text.secondary"
                                 gutterBottom
                             >
-                                Grading Type:{" "}
+                                评分方式:{" "}
                                 {gradingTypes[question.gradingType]}
                                 {question.gradingType === "rightMinusWrong" &&
                                     (question.allowNegativeGrade
-                                        ? " (Allow Negative Grade)"
-                                        : " (No Negative Grade)")}
+                                        ? " (允许负数成绩)"
+                                        : " (不允许负数成绩)")}
                             </Typography>
                             <Typography variant="body1">
                                 {question.question}
@@ -306,7 +306,7 @@ export const FillInBlankQuestions = ({ questions, disabled }) => {
     if (!questions.length) return null;
     return (
         <List
-            subheader={<ListSubheader>Fill in the Blank</ListSubheader>}
+            subheader={<ListSubheader>填空题</ListSubheader>}
             sx={{ width: "100%" }}
         >
             {questions.map((question) => (
@@ -320,7 +320,7 @@ export const FillInBlankQuestions = ({ questions, disabled }) => {
                             >
                                 {question.score !== undefined &&
                                     `${question.score} / `}
-                                {question.grade} points
+                                {question.grade} 分
                             </Typography>
                             <Box>{replaceBlanks(question, disabled)}</Box>
                         </CardContent>

@@ -27,17 +27,17 @@ function EditQuiz() {
         if (res.ok) {
             navigate(`/quiz/${id}`);
         } else {
-            throw new Error("Failed to update quiz");
+            throw new Error("更新试卷失败");
         }
     };
 
     if (quiz === undefined) {
         return <LinearProgress />;
     } else if (quiz === null) {
-        return <h1>Quiz not found</h1>;
+        return <h1>未找到试卷</h1>;
     } else {
         return (
-            <AddEditQuiz quiz={quiz} onSubmit={onSubmit} title="Edit Quiz" />
+            <AddEditQuiz quiz={quiz} onSubmit={onSubmit} title="修改试卷" />
         );
     }
 }

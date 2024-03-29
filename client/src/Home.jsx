@@ -51,7 +51,7 @@ function Home() {
     };
 
     if (quizzes === undefined) return <LinearProgress />;
-    if (quizzes === null) return <div>Error loading quizzes</div>;
+    if (quizzes === null) return <div>加载试卷失败</div>;
 
     const filteredQuizzes = quizzes
         .filter((quiz) =>
@@ -78,7 +78,7 @@ function Home() {
             >
                 <Toolbar />
                 <TextField
-                    label="Search"
+                    label="搜索"
                     value={search}
                     fullWidth
                     size="small"
@@ -101,7 +101,7 @@ function Home() {
                             <ListItemText
                                 primary={quiz.title}
                                 secondary={
-                                    "Last updated: " +
+                                    "上一次更新: " +
                                     quiz.updatedAt.toLocaleString()
                                 }
                             />
@@ -168,10 +168,10 @@ const DeleteQuiz = ({ quiz, open, handleClose }) => {
 
     return (
         <Dialog open={open}>
-            <DialogTitle>Delete Quiz</DialogTitle>
+            <DialogTitle>删除试卷</DialogTitle>
             <DialogContent>
                 <DialogContentText>
-                    Are you sure you want to delete the quiz "{quiz.title}"?
+                    删除此试卷吗 "{quiz.title}"?
                 </DialogContentText>
                 {message && (
                     <Typography color="error" gutterBottom>
@@ -181,7 +181,7 @@ const DeleteQuiz = ({ quiz, open, handleClose }) => {
             </DialogContent>
             <DialogActions>
                 <Button onClick={() => _handleClose(false)} color="primary">
-                    Cancel
+                    取消
                 </Button>
                 <Button
                     onClick={handleDelete}
@@ -189,7 +189,7 @@ const DeleteQuiz = ({ quiz, open, handleClose }) => {
                     disabled={loading}
                 >
                     {loading && <LinearProgress size={24} />}
-                    {!loading && "Delete"}
+                    {!loading && "删除"}
                 </Button>
             </DialogActions>
         </Dialog>
