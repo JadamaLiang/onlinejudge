@@ -1,41 +1,47 @@
-const Quiz = require("./models/quiz.model");
+const { Question } = require("./models/quiz.model");
 
-const toLower = (v) => `${v}`.toLowerCase();
+const grader = async (answers) => {
+    const toLower = (v) => `${v}`.toLowerCase().trim();
 
-const countCorrect = (correctAnswer, userAnswer) => {
-    let set = new Set(correctAnswer.map(toLower));
-    let count = 0;
-    for (let j = 0; j < userAnswer.length; j++)
-        count += set.has(toLower(userAnswer[j])) ? 1 : 0;
-    return count;
-};
-
-const grader = async (quizAttempt) => {
-    const quiz = await Quiz.findById(quizAttempt.quiz);
     let score = 0;
-    for (let i = 0; i < quiz.questions.length; i++) {
-        let correctAnswer = quiz.questions[i].answer;
-        let userAnswer = quizAttempt.answers[i].answer;
-        if (quiz.questions[i].type === "fillInBlank") {
-            let correct = countCorrect(correctAnswer, userAnswer);
-            score += (correct / correctAnswer.length) * quiz.questions[i].grade;
-        } else if (quiz.questions[i].type === "multi") {
-            let correct = countCorrect(correctAnswer, userAnswer);
+    for (let answer of answers) {
+        const question = await Question.findById(answer.question);
+        let correctAnswer = question.answer;
+        let userAnswer = answer.answer;
+        if (question.type === "fillInBlank") {
+            userAnswer = userAnswer.map(toLower);
+            correctAnswer = correctAnswer.map(toLower);
+
+            let correct = 0;
+            const n = Math.min(userAnswer.length, correctAnswer.length);
+            for (let j = 0; j < n; j++)
+                if (userAnswer[j] === correctAnswer[j]) correct++;
+
+            answer.score = (correct / correctAnswer.length) * question.grade;
+        } else if (question.type === "multi") {
+            userAnswer = userAnswer.map(toLower);
+            correctAnswer = new Set(correctAnswer.map(toLower));
+            let correct = 0;
+            for (let ans of userAnswer) if (correctAnswer.has(ans)) correct++;
+
             let wrong = userAnswer.length - correct;
-            if (quiz.questions[i].gradingType === "allOrNothing") {
-                score +=
-                    correct === correctAnswer.length
-                        ? quiz.questions[i].grade
-                        : 0;
-            } else if (quiz.questions[i].gradingType === "rightMinusWrong") {
-                score +=
-                    (correct / correctAnswer.length) * quiz.questions[i].grade -
-                    (wrong / correctAnswer.length) * quiz.questions[i].grade;
+            if (question.gradingType === "allOrNothing") {
+                answer.score =
+                    correct === correctAnswer.size ? question.grade : 0;
+            } else if (question.gradingType === "rightMinusWrong") {
+                answer.score =
+                    (correct / correctAnswer.size) * question.grade -
+                    (wrong / correctAnswer.size) * question.grade;
             }
         } else if (toLower(correctAnswer) === toLower(userAnswer)) {
-            score += quiz.questions[i].grade;
+            answer.score = question.grade;
+        } else {
+            answer.score = 0;
         }
+        score += answer.score;
+        answer.score = Math.round(answer.score * 100) / 100;
     }
+
     return Math.round(score * 100) / 100;
 };
 

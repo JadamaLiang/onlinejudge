@@ -227,7 +227,7 @@ const Question = ({ question, handleDeleteQuestion }) => {
                     >
                         <FormControl required size="small" sx={{ width: 160 }}>
                             <InputLabel id="question-type">
-                                Question Type
+                                题型
                             </InputLabel>
                             <Select
                                 labelId="question-type"

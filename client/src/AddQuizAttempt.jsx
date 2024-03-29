@@ -96,12 +96,12 @@ function AddQuizAttempt() {
                 setScore(attempt.score);
                 setOpen(true);
             })
-            .catch(() => setMessage("Error submitting quiz"))
+            .catch(() => setMessage("提交试卷失败"))
             .finally(() => setLoading(false));
     };
 
     if (quiz === undefined) return <LinearProgress />;
-    if (quiz === null) return <div>Error loading quiz</div>;
+    if (quiz === null) return <div>试卷加载失败</div>;
     return (
         <Box
             display="flex"
@@ -116,7 +116,7 @@ function AddQuizAttempt() {
                 {quiz.title}
             </Typography>
             <TextField
-                label="Name"
+                label="姓名"
                 margin="normal"
                 size="small"
                 name="name"
@@ -141,7 +141,7 @@ function AddQuizAttempt() {
                 disabled={loading}
                 sx={{ my: 2 }}
             >
-                {loading ? <CircularProgress size={24} /> : "Submit"}
+                {loading ? <CircularProgress size={24} /> : "提交"}
             </Button>
             <ScoreDialog open={open} score={score} quiz={quiz} />
         </Box>
@@ -155,10 +155,10 @@ const ScoreDialog = ({ open, score, quiz }) => {
             TransitionComponent={Slide}
             TransitionProps={{ direction: "up" }}
         >
-            <DialogTitle>Quiz Score</DialogTitle>
+            <DialogTitle>成绩</DialogTitle>
             <DialogContent>
                 <DialogContentText>
-                    You scored {score} out of {quiz.totalGrade} points.
+                    你的分数是 {score} 分, 满分是 {quiz.totalGrade} 分。
                 </DialogContentText>
             </DialogContent>
         </Dialog>

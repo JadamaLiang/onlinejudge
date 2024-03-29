@@ -34,7 +34,7 @@ function quizAttempt() {
 
     if (quizAttempt === undefined) return <LinearProgress />;
     if (quizAttempt === null)
-        return <Typography>Quiz Attempt not found</Typography>;
+        return <Typography>尝试报告未找到</Typography>;
 
     quizAttempt.quiz.questions.forEach((question) => {
         question.answer = quizAttempt.answers[question._id].answer;
@@ -58,7 +58,7 @@ function quizAttempt() {
                 {quizAttempt.quiz.title}
             </Typography>
             <Typography variant="h6" gutterBottom>
-                {quizAttempt.score} / {quizAttempt.quiz.totalGrade} points
+                {quizAttempt.score} / {quizAttempt.quiz.totalGrade} 分
             </Typography>
             <Typography variant="h6" gutterBottom>
                 {quizAttempt.name}

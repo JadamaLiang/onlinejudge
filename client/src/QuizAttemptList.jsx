@@ -26,7 +26,7 @@ function QuizAttemptList() {
     }, [id]);
 
     if (quizAttempts === undefined) return <LinearProgress />;
-    if (quizAttempts === null) return <div>Error loading quiz attempts</div>;
+    if (quizAttempts === null) return <div>尝试报告加载失败</div>;
 
     const filteredQuizAttempts = quizAttempts
         .filter((quizAttempt) =>
