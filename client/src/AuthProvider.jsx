@@ -19,7 +19,7 @@ function AuthProvider(props) {
             });
 
             if (res.ok) setUser(await res.json());
-            else console.error("Invalid username or password");
+            else console.error("用户名或密码错误");
         } catch (error) {
             console.error(error);
         }
@@ -31,7 +31,7 @@ function AuthProvider(props) {
         });
 
         if (res.ok) setUser(undefined);
-        else console.error("Unable to logout");
+        else console.error("退出登录失败");
     };
 
     React.useEffect(() => {

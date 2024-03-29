@@ -8,7 +8,7 @@ import { useNavigate } from "react-router-dom";
 
 import { apiRoutes } from "./util";
 
-const LoginPage = () => {
+const Login = () => {
     const navigate = useNavigate();
     const [loading, setLoading] = React.useState(false);
     const [message, setMessage] = React.useState(undefined);
@@ -30,9 +30,9 @@ const LoginPage = () => {
         })
             .then((res) => {
                 if (res.ok) navigate("/", { replace: true });
-                else setMessage("Invalid username or password");
+                else setMessage("用户名或密码错误");
             })
-            .catch((error) => setMessage("Unknown error! Try later"))
+            .catch((error) => setMessage("未知错误！请稍后再试"))
             .finally(() => setLoading(false));
     };
 
@@ -48,7 +48,7 @@ const LoginPage = () => {
             mx="auto"
         >
             <Typography variant="h4" component="h1" gutterBottom>
-                Login
+                欢迎来到OnlineJudge
             </Typography>
             <Box component="form" onSubmit={handleSubmit} width="100%">
                 <TextField
@@ -56,7 +56,7 @@ const LoginPage = () => {
                     variant="standard"
                     fullWidth
                     required
-                    label="Username"
+                    label="用户名"
                     autoFocus
                 />
                 <TextField
@@ -65,7 +65,7 @@ const LoginPage = () => {
                     variant="standard"
                     fullWidth
                     required
-                    label="Password"
+                    label="密码"
                 />
                 <Box sx={{ width: "100%" }}>
                     {message && (
@@ -81,11 +81,11 @@ const LoginPage = () => {
                     disabled={loading}
                     sx={{ my: 2 }}
                 >
-                    {loading ? <CircularProgress size={24} /> : "Login"}
+                    {loading ? <CircularProgress size={24} /> : "登录"}
                 </Button>
             </Box>
         </Box>
     );
 };
 
-export default LoginPage;
+export default Login;

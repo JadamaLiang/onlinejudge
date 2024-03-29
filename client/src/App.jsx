@@ -6,14 +6,14 @@ import AuthProvider, { RequireAuth } from "./AuthProvider";
 import EditQuiz from "./EditQuiz";
 import Home from "./Home";
 import Layout from "./Layout";
-import LoginPage from "./LoginPage";
+import Login from "./Login";
 import Quiz from "./Quiz";
 import QuizAttempt from "./QuizAttempt";
 import QuizAttemptList from "./QuizAttemptList";
 
 const App = () => (
     <Routes>
-        <Route path="/login" element={<LoginPage />} />
+        <Route path="/login" element={<Login />} />
         <Route path="/quiz-attempt/add/:quizId" element={<AddQuizAttempt />} />
         <Route
             path="/"

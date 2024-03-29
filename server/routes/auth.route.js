@@ -4,6 +4,15 @@ const jwt = require("jsonwebtoken");
 
 const config = require("../config");
 const User = require("../models/user.model");
+const auth = require("../middlewares/auth.middleware");
+
+// GET /api/auth
+// Get the current user
+router.route("/").get(auth, (req, res) => {
+    User.findById(req.user._id)
+        .then((user) => res.json(user))
+        .catch((err) => res.status(400).json({ error: err.message }));
+});
 
 // POST /api/auth/login
 // Login using HTTP Basic Authentication
@@ -19,11 +28,11 @@ router.route("/login").post(async (req, res) => {
         const user = await User.findOne({
             $or: [{ username }, { email: username }],
         });
-        if (!user) return res.status(404).json({ error: "User not found" });
+        if (!user) return res.status(404).json({ error: "用户名未找到" });
 
         const isMatch = await bcrypt.compare(password, user.password);
         if (!isMatch)
-            return res.status(401).json({ error: "Password does not match" });
+            return res.status(401).json({ error: "密码不匹配" });
 
         const token = jwt.sign({ _id: user._id }, config.JWT_SECRET, {
             expiresIn: config.JWT_LIFETIME,
