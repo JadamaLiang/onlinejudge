@@ -56,7 +56,7 @@ function QuizAttemptList() {
             >
                 <Toolbar />
                 <TextField
-                    label="Search"
+                    label="搜索"
                     value={search}
                     fullWidth
                     size="small"
@@ -89,7 +89,7 @@ function QuizAttemptList() {
                                 " / " +
                                 quizAttempt.quiz.totalGrade
                             }
-                            secondary="Score"
+                            secondary="成绩"
                             sx={{ textAlign: "right" }}
                         />
                     </ListItem>
